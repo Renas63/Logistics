@@ -1,3 +1,5 @@
+import { EmailMessage } from 'cloudflare:email';
+
 const DESTINATION = 'info@heavytraillogistics.com';
 const SENDER = 'quotes@heavytraillogistics.com';
 const MAX_BODY_BYTES = 20 * 1024;
@@ -104,13 +106,17 @@ export async function onRequestPost({ request, env }) {
   ].join('\n');
 
   try {
-    await env.QUOTE_EMAIL.send({
-      to: DESTINATION,
-      from: SENDER,
-      subject: 'New Quote Request - Heavy Trail Logistics',
-      text: emailBody,
-      replyTo: quote.email
-    });
+    const rawMessage = [
+      `From: Heavy Trail Logistics <${SENDER}>`,
+      `To: ${DESTINATION}`,
+      `Reply-To: ${quote.email}`,
+      'Subject: New Quote Request - Heavy Trail Logistics',
+      'Content-Type: text/plain; charset=UTF-8',
+      '',
+      emailBody
+    ].join('\r\n');
+
+    await env.QUOTE_EMAIL.send(new EmailMessage(SENDER, DESTINATION, rawMessage));
     return json({ success: true });
   } catch {
     return json({ error: 'Unable to send quote request.' }, 502);
