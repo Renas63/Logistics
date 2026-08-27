@@ -6,7 +6,8 @@ A lightweight static website for a trucking and logistics company, built with pl
 
 - `index.html` — homepage content and all company information
 - `assets/css/styles.css` — site styling and responsive layout
-- `assets/js/main.js` — mobile navigation and frontend quote form behavior
+- `assets/js/main.js` — mobile navigation and quote form submission behavior
+- `functions/api/quote.js` — server-side quote validation and Cloudflare Email Service delivery
 - `assets/images/` — trucking-related illustrations for the homepage
 
 ## Run locally
@@ -52,15 +53,16 @@ Replace the SVG files in `assets/images/` with new truck or logistics artwork as
 
 ## Cloudflare deployment notes
 
-This site is designed to remain static and simple for deployment through Cloudflare Pages or a static hosting bucket.
+This site is designed to remain simple for deployment through Cloudflare Pages. The quote form uses a Pages Function at `/api/quote` and Cloudflare Email Service for delivery.
 
 - No build step is required
-- No database or backend is required
-- The quote form is frontend-only and can later be connected to a real submission service
+- No database is required
+- Configure the `QUOTE_EMAIL` native Email Service binding before enabling real submissions
+- Follow [CLOUDFLARE_QUOTE_SETUP.md](CLOUDFLARE_QUOTE_SETUP.md) for account and DNS configuration
 - Keep all business content in `index.html` for easy handoff to another developer
 
 ## Design notes
 
 - The site is intentionally static and easy to maintain.
 - No framework or build step is required.
-- The quote form is frontend-only for now and can be connected to a real form service later.
+- The quote form validates in the browser and again in the Pages Function before sending email.

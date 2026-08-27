@@ -7,6 +7,7 @@ const successDialogClose = document.getElementById('successDialogClose');
 const yearEl = document.getElementById('year');
 const submitButton = form ? form.querySelector('button[type="submit"]') : null;
 let lastFocusedElement = submitButton;
+const friendlySubmitError = 'We couldn\'t send your quote request. Please try again or contact Heavy Trail Logistics directly.';
 
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -80,7 +81,7 @@ if (successDialog) {
 }
 
 if (form) {
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const requiredFields = [
@@ -106,7 +107,38 @@ if (form) {
       return;
     }
 
-    form.reset();
-    openSuccessDialog();
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = 'Sending request...';
+    }
+
+    if (formStatus) {
+      formStatus.textContent = 'Sending your quote request...';
+    }
+
+    try {
+      const response = await fetch('/api/quote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      const result = await response.json().catch(() => ({}));
+
+      if (!response.ok || result.success !== true) {
+        throw new Error('Quote request was not accepted');
+      }
+
+      form.reset();
+      openSuccessDialog();
+    } catch (error) {
+      if (formStatus) {
+        formStatus.textContent = friendlySubmitError;
+      }
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Submit Quote Request';
+      }
+    }
   });
 }

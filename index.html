@@ -338,7 +338,12 @@
               <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Add any route, timing, or special requirements."></textarea>
             </div>
 
-            <p class="form-note">This form is frontend-only for now and can be connected to a real submission service later.</p>
+            <div class="hidden-field" aria-hidden="true">
+              <label for="website">Website</label>
+              <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <p class="form-note">Share your shipment details and our team will follow up with the right transportation solution.</p>
             <button class="btn btn-primary full-width" type="submit">Submit Quote Request</button>
             <p class="form-status" id="formStatus" aria-live="polite"></p>
           </form>

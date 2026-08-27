@@ -496,6 +496,15 @@ p {
   margin-bottom: 1rem;
 }
 
+.hidden-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
 label {
   font-weight: 600;
   color: #fff;
@@ -532,6 +541,12 @@ select option {
   margin: 0.75rem 0 0;
   color: #d8f6d8;
   font-weight: 600;
+}
+
+.quote-form button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
 }
 
 .success-dialog-backdrop {
