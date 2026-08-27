@@ -1,6 +1,10 @@
 name = "heavy-trail-logistics"
 compatibility_date = "2026-08-27"
-pages_build_output_dir = "."
+main = "src/index.js"
+
+[assets]
+directory = "."
+binding = "ASSETS"
 
 [[send_email]]
 name = "QUOTE_EMAIL"
