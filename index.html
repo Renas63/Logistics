@@ -263,7 +263,7 @@
             </ul>
           </div>
 
-          <form class="quote-form" id="quoteForm" data-form-endpoint="" novalidate>
+          <form class="quote-form" id="quoteForm" action="https://formspree.io/f/mgavzlzz" method="POST" novalidate>
             <div class="field-row two-col">
               <div class="field-group">
                 <label for="name">Name <span aria-label="required">*</span></label>
@@ -338,9 +338,9 @@
               <textarea id="additionalInfo" name="additionalInfo" rows="3" placeholder="Add any route, timing, or special requirements."></textarea>
             </div>
 
-            <p class="form-note">This form is frontend-only for now and can be connected to a real submission service later.</p>
+            <p class="form-note">Submit your shipment details securely and our team will follow up with a quote.</p>
             <button class="btn btn-primary full-width" type="submit">Submit Quote Request</button>
-            <p class="form-status" id="formStatus" aria-live="polite"></p>
+            <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
           </form>
         </div>
       </section>

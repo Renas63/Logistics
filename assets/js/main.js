@@ -7,6 +7,7 @@ const successDialogClose = document.getElementById('successDialogClose');
 const yearEl = document.getElementById('year');
 const submitButton = form ? form.querySelector('button[type="submit"]') : null;
 let lastFocusedElement = submitButton;
+let isSubmitting = false;
 
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -80,8 +81,12 @@ if (successDialog) {
 }
 
 if (form) {
-  form.addEventListener('submit', (event) => {
+  form.addEventListener('submit', async (event) => {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
 
     const requiredFields = [
       document.getElementById('name'),
@@ -94,19 +99,57 @@ if (form) {
       document.getElementById('freightDescription')
     ];
 
+    const hasNativeValidityError = !form.checkValidity();
     const allValid = requiredFields.every((field) => {
       if (!field) return true;
       return field.value.trim() !== '';
     });
 
-    if (!allValid) {
+    if (hasNativeValidityError || !allValid) {
+      form.reportValidity();
       if (formStatus) {
         formStatus.textContent = 'Please complete all required fields before submitting your quote request.';
       }
       return;
     }
 
-    form.reset();
-    openSuccessDialog();
+    isSubmitting = true;
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.setAttribute('aria-disabled', 'true');
+      submitButton.textContent = 'Sending...';
+    }
+    if (formStatus) {
+      formStatus.textContent = 'Sending your quote request...';
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: {
+          Accept: 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Form submission failed with status ${response.status}.`);
+      }
+
+      form.reset();
+      openSuccessDialog();
+    } catch (error) {
+      if (formStatus) {
+        formStatus.textContent = 'We could not send your quote request. Please try again or call us directly.';
+      }
+      console.error('Quote form submission failed:', error);
+    } finally {
+      isSubmitting = false;
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.setAttribute('aria-disabled', 'false');
+        submitButton.textContent = 'Submit Quote Request';
+      }
+    }
   });
 }

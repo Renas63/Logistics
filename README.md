@@ -6,7 +6,7 @@ A lightweight static website for a trucking and logistics company, built with pl
 
 - `index.html` — homepage content and all company information
 - `assets/css/styles.css` — site styling and responsive layout
-- `assets/js/main.js` — mobile navigation and frontend quote form behavior
+- `assets/js/main.js` — mobile navigation and quote form submission behavior
 - `assets/images/` — trucking-related illustrations for the homepage
 
 ## Run locally
@@ -45,6 +45,7 @@ Edit the values in `index.html` to change the following:
 - Quote form fields: `index.html` in the Request a Quote section
 - Driver recruitment content: `index.html` in the Drive With Us section
 - Footer email and contact links: `index.html`
+- Quote form endpoint: the `action` attribute on `#quoteForm` in `index.html`
 
 ## Update photos
 
@@ -56,11 +57,11 @@ This site is designed to remain static and simple for deployment through Cloudfl
 
 - No build step is required
 - No database or backend is required
-- The quote form is frontend-only and can later be connected to a real submission service
+- The quote form submits with `POST` to the public Formspree endpoint configured on `#quoteForm`
 - Keep all business content in `index.html` for easy handoff to another developer
 
 ## Design notes
 
 - The site is intentionally static and easy to maintain.
 - No framework or build step is required.
-- The quote form is frontend-only for now and can be connected to a real form service later.
+- To change the submission service, update the form `action` in `index.html` and keep the endpoint compatible with `POST` form data and JSON responses.
