@@ -1,0 +1,12 @@
+# Repository metadata and local Wrangler state must never be published.
+.git
+.git/**
+.wrangler
+.wrangler/**
+
+# Files used for repository maintenance rather than the website.
+.gitignore
+.assetsignore
+README.md
+.github
+.github/**

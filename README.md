@@ -59,6 +59,7 @@ This site is designed to remain static and simple for deployment through Cloudfl
 - No database or backend is required
 - The quote form submits with `POST` to the public Formspree endpoint configured on `#quoteForm`
 - Keep all business content in `index.html` for easy handoff to another developer
+- `.assetsignore` keeps repository metadata and local Wrangler state out of published static assets while leaving `index.html` and `assets/` available.
 
 ## Design notes
 
